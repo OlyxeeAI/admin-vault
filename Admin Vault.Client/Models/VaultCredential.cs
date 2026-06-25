@@ -3,6 +3,8 @@ namespace Admin_Vault.Client.Models;
 public class VaultCredential
 {
     public int Id { get; set; }
+    public int ProjectId { get; set; }
+    public Project? Project { get; set; }
     public string ServiceName { get; set; } = string.Empty;
     public string Environment { get; set; } = string.Empty;
     public string SecretValue { get; set; } = string.Empty;

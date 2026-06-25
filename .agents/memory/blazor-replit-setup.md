@@ -22,6 +22,9 @@ Removed `app.UseHttpsRedirection()` entirely. Replit's edge terminates TLS and f
 `SUPABASE_DB_URL` is a libpq URI (`postgresql://user:pass@host:6543/db`, transaction pooler). Npgsql cannot parse a URI directly — `DatabaseConnection.BuildNpgsqlConnectionString` converts it to key/value form and forces `SslMode=Require` (Supabase requires SSL). Schema is created at startup via `EnsureCreated()`.
 **Why:** passing the raw URI to `UseNpgsql` throws; SSL is mandatory for Supabase.
 
+## EnsureCreated does NOT migrate
+The app uses `EnsureCreated()`, which only builds the schema when the tables don't exist yet. After the first successful connection, **adding columns/tables/relationships in code will NOT apply** to that database — EnsureCreated sees tables already present and does nothing, so the app will throw "column does not exist" at runtime. To pick up a schema change you must drop the existing tables (dev: fine, DB is disposable) or move to EF migrations. The Project grouping (projects table + ProjectId FK on credentials/documents) was added before the DB was ever connected, so a clean first-run creates everything.
+
 ## Runtime / deployment
 - Module: `dotnet-8.0` (projects target net8.0; the import shipped with dotnet-7.0 which can't build them).
 - Deploy target: **VM** (not autoscale) because InteractiveServer keeps SignalR circuit state in server memory.

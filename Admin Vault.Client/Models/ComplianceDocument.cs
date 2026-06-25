@@ -3,6 +3,8 @@ namespace Admin_Vault.Client.Models;
 public class ComplianceDocument
 {
     public int Id { get; set; }
+    public int ProjectId { get; set; }
+    public Project? Project { get; set; }
     public string FileName { get; set; } = string.Empty;
     public long FileSizeBytes { get; set; }
     public string Sha256 { get; set; } = string.Empty;

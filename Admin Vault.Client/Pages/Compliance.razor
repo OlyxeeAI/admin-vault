@@ -1,5 +1,4 @@
 ﻿@page "/compliance"
-@using System.Security.Cryptography
 @using Admin_Vault.Client.Models
 @using Admin_Vault.Client.Services
 @inject IVaultDataService Data
@@ -10,23 +9,12 @@
 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
     <div>
         <h2 class="text-xl font-bold text-gray-900">Documents & Regulatory Audits</h2>
-        <p class="text-xs text-gray-500">Repository for corporate certification records and statutory cryptographic proof assets.</p>
+        <p class="text-xs text-gray-500">All documents across projects, with cryptographic proof of integrity.</p>
     </div>
-
-    <label class="bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-sm transition-all flex items-center gap-2 self-start sm:self-auto cursor-pointer">
-        <i data-lucide="upload-cloud" class="w-3.5 h-3.5"></i>
-        <span>Upload Document</span>
-        <InputFile OnChange="HandleFileSelection" class="hidden" />
-    </label>
+    <a href="/projects" class="bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-sm transition-all flex items-center gap-2 self-start sm:self-auto">
+        <i data-lucide="folder" class="w-3.5 h-3.5"></i> Manage by Project
+    </a>
 </div>
-
-@if (!string.IsNullOrEmpty(statusFeedbackMessage))
-{
-    <div class="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-xl mb-6 flex items-center gap-2 animate-fadeIn">
-        <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
-        <span>@statusFeedbackMessage</span>
-    </div>
-}
 
 <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
     <div class="p-6 border-b border-gray-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50/50">
@@ -34,12 +22,17 @@
             <h3 class="font-bold text-base text-gray-900">Regulatory Artifact Ledger</h3>
             <p class="text-xs text-gray-500">Validated compliance source files.</p>
         </div>
+        <div class="relative w-full sm:w-72">
+            <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            <input @bind="searchTerm" @bind:event="oninput" placeholder="Search by file, project, type..." class="w-full bg-white border border-gray-200 text-xs pl-9 pr-3 py-2 rounded-lg focus:outline-none focus:border-gray-400 text-gray-800" />
+        </div>
     </div>
 
     <div class="overflow-x-auto">
         <table class="w-full text-left text-xs whitespace-nowrap">
             <thead class="bg-gray-50 text-gray-500 uppercase font-semibold tracking-wider border-b border-gray-200 text-[10px]">
                 <tr>
+                    <th class="px-6 py-3.5">Project</th>
                     <th class="px-6 py-3.5">Document File Parameters</th>
                     <th class="px-6 py-3.5">SHA-256 Checksum Signature</th>
                     <th class="px-6 py-3.5">Intake Timestamp / Actor</th>
@@ -47,15 +40,28 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 text-gray-700">
-                @if (Documents.Count == 0)
+                @if (FilteredDocuments.Count == 0)
                 {
-                    <tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">No documents uploaded yet.</td></tr>
+                    <tr><td colspan="5" class="px-6 py-8 text-center text-gray-400">No documents match. Upload documents from within a project.</td></tr>
                 }
                 else
                 {
-                    @foreach (var doc in Documents)
+                    @foreach (var doc in FilteredDocuments)
                     {
                         <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                @if (doc.Project != null)
+                                {
+                                    <a href="@($"/projects/{doc.ProjectId}")" class="inline-flex items-center gap-2 group">
+                                        <span class="w-6 h-6 rounded-md text-white text-[10px] font-bold flex items-center justify-center shrink-0" style="background-color: @doc.Project.AccentColor">@doc.Project.Initials</span>
+                                        <span class="font-semibold text-gray-800 group-hover:text-gray-950">@doc.Project.Name</span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="text-gray-400">&mdash;</span>
+                                }
+                            </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <span class="text-gray-400"><i data-lucide="file-text" class="w-5 h-5"></i></span>
@@ -84,48 +90,22 @@
 </div>
 
 @code {
-    private string statusFeedbackMessage = string.Empty;
     private List<ComplianceDocument> Documents = new();
+    private string searchTerm = string.Empty;
+
+    private List<ComplianceDocument> FilteredDocuments =>
+        string.IsNullOrWhiteSpace(searchTerm)
+            ? Documents
+            : Documents.Where(d =>
+                (d.FileName?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (d.Project?.Name?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (d.Classification?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (d.UploadedBy?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ?? false)
+            ).ToList();
 
     protected override async Task OnInitializedAsync()
     {
         Documents = await Data.GetDocumentsAsync();
-    }
-
-    private async Task HandleFileSelection(InputFileChangeEventArgs e)
-    {
-        var file = e.File;
-        if (file == null) return;
-
-        // Stream the file once to compute a real SHA-256 checksum of its contents.
-        await using var stream = file.OpenReadStream(maxAllowedSize: 25 * 1024 * 1024);
-        using var memory = new MemoryStream();
-        await stream.CopyToAsync(memory);
-        var bytes = memory.ToArray();
-        var checksum = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
-
-        var doc = new ComplianceDocument
-        {
-            FileName = file.Name,
-            FileSizeBytes = file.Size,
-            Sha256 = checksum,
-            UploadedBy = CurrentUser.Email,
-            Classification = "Confidential / Legal"
-        };
-
-        await Data.AddDocumentAsync(doc);
-        await Data.AddAuditLogAsync(new AuditLog
-        {
-            Action = $"Uploaded compliance document '{file.Name}'",
-            ActorEmail = CurrentUser.Email,
-            ActorRole = CurrentUser.Role,
-            IpAddress = "\u2014",
-            Status = "SUCCESS"
-        });
-
-        Documents = await Data.GetDocumentsAsync();
-        statusFeedbackMessage = $"Document '{file.Name}' securely committed to the ledger.";
-        await JS.InvokeVoidAsync("refreshTailwindAndIcons");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

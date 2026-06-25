@@ -2,6 +2,7 @@ namespace Admin_Vault.Client.Models;
 
 public class DashboardStats
 {
+    public int TotalProjects { get; set; }
     public int TotalCredentials { get; set; }
     public int ActiveApiKeys { get; set; }
     public int ComplianceDocuments { get; set; }

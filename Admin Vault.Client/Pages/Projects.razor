@@ -1,0 +1,130 @@
+﻿@page "/projects"
+@using Admin_Vault.Client.Models
+@using Admin_Vault.Client.Services
+@inject IVaultDataService Data
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+
+<PageTitle>Projects | Olyxee Vault</PageTitle>
+
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+    <div>
+        <h2 class="text-xl font-bold text-gray-900">Projects</h2>
+        <p class="text-xs text-gray-500">Group API keys and documents by project so the right secret is always one click away.</p>
+    </div>
+    <button @onclick="ToggleCreateForm" class="bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-sm transition-all flex items-center gap-2 self-start sm:self-auto">
+        <i data-lucide="plus" class="w-3.5 h-3.5"></i> New Project
+    </button>
+</div>
+
+@if (showCreateForm)
+{
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
+        <h3 class="font-bold text-base text-gray-900 mb-4">Create Project</h3>
+        <EditForm Model="newProject" OnValidSubmit="HandleCreate">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Project Name</label>
+                    <input @bind="newProject.Name" required class="w-full bg-white border border-gray-200 text-xs px-3 py-2 rounded-lg focus:outline-none focus:border-gray-400 text-gray-800" placeholder="Mongo Migration" />
+                </div>
+                <div>
+                    <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Category</label>
+                    <input @bind="newProject.Category" class="w-full bg-white border border-gray-200 text-xs px-3 py-2 rounded-lg focus:outline-none focus:border-gray-400 text-gray-800" placeholder="MongoDB / AWS / Internal" />
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="block text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Description</label>
+                    <textarea @bind="newProject.Description" rows="2" class="w-full bg-white border border-gray-200 text-xs px-3 py-2 rounded-lg focus:outline-none focus:border-gray-400 text-gray-800" placeholder="What this project is for..."></textarea>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 mt-5">
+                <button type="submit" class="bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-all">Create Project</button>
+                <button type="button" @onclick="ToggleCreateForm" class="text-gray-500 hover:text-gray-900 text-xs font-semibold px-3 py-2 transition-colors">Cancel</button>
+            </div>
+        </EditForm>
+    </div>
+}
+
+@if (ProjectsList.Count == 0)
+{
+    <div class="bg-white border border-dashed border-gray-300 rounded-xl p-12 text-center">
+        <div class="w-12 h-12 rounded-xl bg-gray-100 text-gray-400 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="folder-plus" class="w-6 h-6"></i>
+        </div>
+        <h3 class="font-bold text-gray-900 mb-1">No projects yet</h3>
+        <p class="text-xs text-gray-500 mb-5">Create your first project to start organizing keys and documents.</p>
+        <button @onclick="ToggleCreateForm" class="bg-gray-900 hover:bg-gray-800 text-white text-xs font-semibold px-4 py-2.5 rounded-lg shadow-sm transition-all inline-flex items-center gap-2">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i> New Project
+        </button>
+    </div>
+}
+else
+{
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        @foreach (var project in ProjectsList)
+        {
+            <a href="@($"/projects/{project.Id}")" class="group bg-white border border-gray-200 rounded-xl shadow-sm p-6 hover:shadow-md hover:border-gray-300 transition-all flex flex-col">
+                <div class="flex items-start justify-between mb-4">
+                    <span class="w-11 h-11 rounded-xl text-white text-sm font-bold flex items-center justify-center shrink-0" style="background-color: @project.AccentColor">@project.Initials</span>
+                    @if (!string.IsNullOrWhiteSpace(project.Category))
+                    {
+                        <span class="bg-gray-100 text-gray-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-gray-200">@project.Category</span>
+                    }
+                </div>
+                <h3 class="font-bold text-gray-900 group-hover:text-gray-950">@project.Name</h3>
+                <p class="text-xs text-gray-500 mt-1 line-clamp-2 min-h-[2rem]">@(string.IsNullOrWhiteSpace(project.Description) ? "No description" : project.Description)</p>
+                <div class="flex items-center gap-4 mt-4 pt-4 border-t border-gray-100 text-[11px] text-gray-500">
+                    <span class="flex items-center gap-1.5"><i data-lucide="key-round" class="w-3.5 h-3.5"></i> @project.KeyCount keys</span>
+                    <span class="flex items-center gap-1.5"><i data-lucide="file-text" class="w-3.5 h-3.5"></i> @project.DocCount docs</span>
+                </div>
+            </a>
+        }
+    </div>
+}
+
+@code {
+    private List<Project> ProjectsList = new();
+    private bool showCreateForm = false;
+    private Project newProject = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProjects();
+    }
+
+    private async Task LoadProjects()
+    {
+        ProjectsList = await Data.GetProjectsAsync();
+    }
+
+    private void ToggleCreateForm()
+    {
+        showCreateForm = !showCreateForm;
+        if (showCreateForm)
+        {
+            newProject = new Project();
+        }
+    }
+
+    private async Task HandleCreate()
+    {
+        if (string.IsNullOrWhiteSpace(newProject.Name)) return;
+
+        await Data.AddProjectAsync(newProject);
+        await Data.AddAuditLogAsync(new AuditLog
+        {
+            Action = $"Created project '{newProject.Name}'",
+            ActorEmail = CurrentUser.Email,
+            ActorRole = CurrentUser.Role,
+            IpAddress = "\u2014",
+            Status = "SUCCESS"
+        });
+        showCreateForm = false;
+        await LoadProjects();
+        await JS.InvokeVoidAsync("refreshTailwindAndIcons");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JS.InvokeVoidAsync("refreshTailwindAndIcons");
+    }
+}
