@@ -127,3 +127,9 @@ C:/Users/User/Desktop/oxylee/Admin Vault/Admin Vault/obj/Debug/net8.0/ref/Admin_
 /home/runner/workspace/Admin Vault/obj/Debug/net8.0/Admin_Vault.pdb
 /home/runner/workspace/Admin Vault/obj/Debug/net8.0/Admin Vault.genruntimeconfig.cache
 /home/runner/workspace/Admin Vault/obj/Debug/net8.0/ref/Admin_Vault.dll
+/home/runner/workspace/Admin Vault/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.dll
+/home/runner/workspace/Admin Vault/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/runner/workspace/Admin Vault/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
+/home/runner/workspace/Admin Vault/bin/Debug/net8.0/Microsoft.Extensions.Caching.Memory.dll
+/home/runner/workspace/Admin Vault/bin/Debug/net8.0/Npgsql.dll
+/home/runner/workspace/Admin Vault/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll

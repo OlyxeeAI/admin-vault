@@ -1,0 +1,1 @@
+- [Blazor on Replit setup](blazor-replit-setup.md) — dotnet run port binding, proxy/HTTPS, and Supabase pooler connection gotchas for this repo.

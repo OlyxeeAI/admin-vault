@@ -1,4 +1,8 @@
 ﻿@page "/compliance"
+@using System.Security.Cryptography
+@using Admin_Vault.Client.Models
+@using Admin_Vault.Client.Services
+@inject IVaultDataService Data
 @inject IJSRuntime JS
 
 <PageTitle>Documents & Compliance | Olyxee Vault</PageTitle>
@@ -30,7 +34,6 @@
             <h3 class="font-bold text-base text-gray-900">Regulatory Artifact Ledger</h3>
             <p class="text-xs text-gray-500">Validated compliance source files.</p>
         </div>
-        <input type="text" placeholder="Search files..." class="bg-white border border-gray-200 text-xs px-3 py-1.5 rounded-lg focus:outline-none focus:border-gray-400 w-full sm:w-48 transition-all text-gray-800" />
     </div>
 
     <div class="overflow-x-auto">
@@ -44,29 +47,36 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 text-gray-700">
-                @foreach (var doc in Documents)
+                @if (Documents.Count == 0)
                 {
-                    <tr class="hover:bg-gray-50/50 transition-colors">
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-3">
-                                <span class="text-gray-400"><i data-lucide="file-text" class="w-5 h-5"></i></span>
-                                <div>
-                                    <div class="font-bold text-gray-900">@doc.FileName</div>
-                                    <div class="text-[10px] text-gray-400 mt-0.5">@doc.FileSizeStrings</div>
+                    <tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">No documents uploaded yet.</td></tr>
+                }
+                else
+                {
+                    @foreach (var doc in Documents)
+                    {
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-gray-400"><i data-lucide="file-text" class="w-5 h-5"></i></span>
+                                    <div>
+                                        <div class="font-bold text-gray-900">@doc.FileName</div>
+                                        <div class="text-[10px] text-gray-400 mt-0.5">@doc.FileSizeString</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 font-mono text-gray-500 text-[11px]">@doc.SHA256Checksum</td>
-                        <td class="px-6 py-4">
-                            <div class="text-gray-800 font-medium">@doc.UploadedAt.ToString("yyyy-MM-dd HH:mm")</div>
-                            <div class="text-[10px] text-gray-400">@doc.UploadedBy</div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <span class="bg-gray-100 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded-md border border-gray-200">
-                                @doc.ClassificationLevel
-                            </span>
-                        </td>
-                    </tr>
+                            </td>
+                            <td class="px-6 py-4 font-mono text-gray-500 text-[11px]">@doc.ShortChecksum</td>
+                            <td class="px-6 py-4">
+                                <div class="text-gray-800 font-medium">@doc.UploadedAt.ToString("yyyy-MM-dd HH:mm")</div>
+                                <div class="text-[10px] text-gray-400">@doc.UploadedBy</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <span class="bg-gray-100 text-gray-800 text-[10px] font-bold px-2 py-0.5 rounded-md border border-gray-200">
+                                    @doc.Classification
+                                </span>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -75,47 +85,47 @@
 
 @code {
     private string statusFeedbackMessage = string.Empty;
+    private List<ComplianceDocument> Documents = new();
 
-    private List<ComplianceDocModel> Documents = new()
+    protected override async Task OnInitializedAsync()
     {
-        new ComplianceDocModel { FileName = "CIPC_Registration_2026.pdf", FileSizeStrings = "2.4 MB", SHA256Checksum = "8a4f9b2c...e1d3c4b5", UploadedAt = DateTime.Now.AddDays(-5), UploadedBy = "system-process", ClassificationLevel = "Confidential / Legal" },
-        new ComplianceDocModel { FileName = "B-BBEE_Verification_Certificate.pdf", FileSizeStrings = "1.1 MB", SHA256Checksum = "f3e2d1c0...9a8b7c6d", UploadedAt = DateTime.Now.AddMonths(-2), UploadedBy = "audit-compliance", ClassificationLevel = "Statutory Public" }
-    };
+        Documents = await Data.GetDocumentsAsync();
+    }
 
-    // Process file streams dynamically when selected from local filesystem storage
     private async Task HandleFileSelection(InputFileChangeEventArgs e)
     {
         var file = e.File;
-        if (file != null)
+        if (file == null) return;
+
+        // Stream the file once to compute a real SHA-256 checksum of its contents.
+        await using var stream = file.OpenReadStream(maxAllowedSize: 25 * 1024 * 1024);
+        using var memory = new MemoryStream();
+        await stream.CopyToAsync(memory);
+        var bytes = memory.ToArray();
+        var checksum = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
+
+        var doc = new ComplianceDocument
         {
-            // Convert file metadata bytes into readable units
-            double sizeInMb = (double)file.Size / (1024 * 1024);
+            FileName = file.Name,
+            FileSizeBytes = file.Size,
+            Sha256 = checksum,
+            UploadedBy = CurrentUser.Email,
+            Classification = "Confidential / Legal"
+        };
 
-            var temporaryDoc = new ComplianceDocModel
-            {
-                FileName = file.Name,
-                FileSizeStrings = $"{sizeInMb:F1} MB",
-                SHA256Checksum = "e3b0c442...ceb57067", // Simulated runtime SHA calculation string block
-                UploadedAt = DateTime.Now,
-                UploadedBy = "siyanda@olyxee.com",
-                ClassificationLevel = "Confidential / Legal"
-            };
+        await Data.AddDocumentAsync(doc);
+        await Data.AddAuditLogAsync(new AuditLog
+        {
+            Action = $"Uploaded compliance document '{file.Name}'",
+            ActorEmail = CurrentUser.Email,
+            ActorRole = CurrentUser.Role,
+            IpAddress = "\u2014",
+            Status = "SUCCESS"
+        });
 
-            Documents.Insert(0, temporaryDoc);
-            statusFeedbackMessage = $"Document '{file.Name}' securely buffered to storage ledger.";
-            StateHasChanged();
-            await JS.InvokeVoidAsync("refreshTailwindAndIcons");
-        }
-    }
-
-    public class ComplianceDocModel
-    {
-        public string FileName { get; set; } = string.Empty;
-        public string FileSizeStrings { get; set; } = string.Empty;
-        public string SHA256Checksum { get; set; } = string.Empty;
-        public DateTime UploadedAt { get; set; }
-        public string UploadedBy { get; set; } = string.Empty;
-        public string ClassificationLevel { get; set; } = string.Empty;
+        Documents = await Data.GetDocumentsAsync();
+        statusFeedbackMessage = $"Document '{file.Name}' securely committed to the ledger.";
+        await JS.InvokeVoidAsync("refreshTailwindAndIcons");
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

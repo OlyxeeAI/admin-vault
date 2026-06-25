@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using Admin_Vault.Client.Models
+@using Admin_Vault.Client.Services
+@inject IVaultDataService Data
 @inject IJSRuntime JS
 
 <PageTitle>Dashboard | Olyxee Vault</PageTitle>
@@ -11,7 +14,7 @@
             <span class="text-gray-400"><i data-lucide="key-round" class="w-4 h-4"></i></span>
         </div>
         <div class="mt-2">
-            <h3 class="text-2xl font-bold text-gray-900 leading-none">42</h3>
+            <h3 class="text-2xl font-bold text-gray-900 leading-none">@stats.TotalCredentials</h3>
             <p class="text-[11px] text-emerald-600 font-medium mt-1">All Encrypted AES-256</p>
         </div>
     </div>
@@ -22,8 +25,8 @@
             <span class="text-amber-500"><i data-lucide="cpu" class="w-4 h-4"></i></span>
         </div>
         <div class="mt-2">
-            <h3 class="text-2xl font-bold text-gray-900 leading-none">18</h3>
-            <p class="text-[11px] text-gray-500 mt-1">OpenAI, Supabase, Azure</p>
+            <h3 class="text-2xl font-bold text-gray-900 leading-none">@stats.ActiveApiKeys</h3>
+            <p class="text-[11px] text-gray-500 mt-1">Active vault entries</p>
         </div>
     </div>
 
@@ -33,8 +36,8 @@
             <span class="text-gray-400"><i data-lucide="file-text" class="w-4 h-4"></i></span>
         </div>
         <div class="mt-2">
-            <h3 class="text-2xl font-bold text-gray-900 leading-none">7</h3>
-            <p class="text-[11px] text-rose-600 font-semibold mt-1">1 expiring soon (B-BBEE)</p>
+            <h3 class="text-2xl font-bold text-gray-900 leading-none">@stats.ComplianceDocuments</h3>
+            <p class="text-[11px] text-gray-500 font-medium mt-1">Stored artifacts</p>
         </div>
     </div>
 
@@ -44,8 +47,8 @@
             <span class="text-indigo-600"><i data-lucide="activity" class="w-4 h-4"></i></span>
         </div>
         <div class="mt-2">
-            <h3 class="text-2xl font-bold text-gray-900 leading-none">143</h3>
-            <p class="text-[11px] text-gray-500 mt-1">0 Unauthorized attempts</p>
+            <h3 class="text-2xl font-bold text-gray-900 leading-none">@stats.AuditTriggers24h</h3>
+            <p class="text-[11px] text-gray-500 mt-1">@stats.UnauthorizedAttempts24h Unauthorized attempts</p>
         </div>
     </div>
 </div>
@@ -59,9 +62,7 @@
                     <h3 class="font-bold text-base text-gray-900">Secure Credentials Vault</h3>
                     <p class="text-xs text-gray-500">Sensitive variables and configuration data</p>
                 </div>
-                <div class="relative">
-                    <input type="text" placeholder="Search keys..." class="bg-white border border-gray-200 text-xs px-3 py-1.5 rounded-lg focus:outline-none focus:border-gray-400 w-44 transition-all text-gray-800" />
-                </div>
+                <a href="credentials" class="text-xs font-semibold text-gray-500 hover:text-gray-900 transition-colors">Manage</a>
             </div>
 
             <div class="overflow-x-auto">
@@ -75,38 +76,32 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100 text-gray-700">
-                        <tr class="hover:bg-gray-50/80 transition-colors">
-                            <td class="px-6 py-4">
-                                <div class="font-bold text-gray-900">OpenAI API Key</div>
-                                <div class="text-[10px] text-amber-600 font-medium flex items-center gap-1 mt-0.5">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Production
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 font-mono text-gray-500 tracking-tight select-all">sk-proj-••••••••••••w9xA</td>
-                            <td class="px-6 py-4">
-                                <div class="font-medium text-gray-800">siyanda@@olyxee.com</div>
-                                <div class="text-[10px] text-gray-400">Engineering</div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-emerald-200">Active</span>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50/80 transition-colors">
-                            <td class="px-6 py-4">
-                                <div class="font-bold text-gray-900">Supabase DB Password</div>
-                                <div class="text-[10px] text-purple-600 font-medium flex items-center gap-1 mt-0.5">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Staging
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 font-mono text-gray-500 tracking-tight select-all">db-pass-••••••••••••7z9q</td>
-                            <td class="px-6 py-4">
-                                <div class="font-medium text-gray-800">system-process</div>
-                                <div class="text-[10px] text-gray-400">Infrastructure</div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-emerald-200">Active</span>
-                            </td>
-                        </tr>
+                        @if (recentCredentials.Count == 0)
+                        {
+                            <tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">No credentials stored yet.</td></tr>
+                        }
+                        else
+                        {
+                            @foreach (var credential in recentCredentials)
+                            {
+                                <tr class="hover:bg-gray-50/80 transition-colors">
+                                    <td class="px-6 py-4">
+                                        <div class="font-bold text-gray-900">@credential.ServiceName</div>
+                                        <div class="text-[10px] font-medium flex items-center gap-1 mt-0.5" style="color: @credential.EnvColor">
+                                            <span class="w-1.5 h-1.5 rounded-full" style="background-color: @credential.BgColor"></span> @credential.Environment
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-gray-500 tracking-tight select-all">@credential.MaskedValue</td>
+                                    <td class="px-6 py-4">
+                                        <div class="font-medium text-gray-800">@credential.OwnerEmail</div>
+                                        <div class="text-[10px] text-gray-400">@credential.Department</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-md border border-emerald-200">@credential.Status</span>
+                                    </td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
             </div>
@@ -125,27 +120,24 @@
             </div>
 
             <div class="space-y-4">
-                <div class="pl-4 border-l-2 border-indigo-500 space-y-1">
-                    <div class="flex justify-between items-center text-[11px]">
-                        <span class="font-bold text-gray-900 tracking-wide">CREDENTIAL_REVEAL</span>
-                        <span class="text-gray-400 font-medium">11:41 AM</span>
-                    </div>
-                    <p class="text-xs text-gray-600 leading-normal">
-                        User <span class="font-medium text-gray-900">siyanda@@olyxee.com</span> revealed OpenAI API key [Prod]
-                    </p>
-                    <p class="text-[10px] font-mono text-gray-400">IP: 102.65.12.82 • SAST</p>
-                </div>
-
-                <div class="pl-4 border-l-2 border-emerald-500 space-y-1">
-                    <div class="flex justify-between items-center text-[11px]">
-                        <span class="font-bold text-gray-900 tracking-wide">DOCUMENT_UPLOAD</span>
-                        <span class="text-gray-400 font-medium">09:15 AM</span>
-                    </div>
-                    <p class="text-xs text-gray-600 leading-normal">
-                        Uploaded <span class="font-medium text-gray-900">CIPC_Registration_2026.pdf</span>
-                    </p>
-                    <p class="text-[10px] text-gray-400">Role: Compliance Manager</p>
-                </div>
+                @if (recentLogs.Count == 0)
+                {
+                    <p class="text-xs text-gray-400">No audit events recorded yet.</p>
+                }
+                else
+                {
+                    @foreach (var log in recentLogs)
+                    {
+                        <div class="pl-4 border-l-2 @(log.Status == "SUCCESS" ? "border-indigo-500" : "border-rose-500") space-y-1">
+                            <div class="flex justify-between items-center text-[11px]">
+                                <span class="font-bold text-gray-900 tracking-wide">@log.Status</span>
+                                <span class="text-gray-400 font-medium">@log.Timestamp.ToString("HH:mm")</span>
+                            </div>
+                            <p class="text-xs text-gray-600 leading-normal">@log.Action</p>
+                            <p class="text-[10px] font-mono text-gray-400">@log.ActorEmail</p>
+                        </div>
+                    }
+                }
             </div>
         </div>
 
@@ -157,6 +149,17 @@
 </div>
 
 @code {
+    private DashboardStats stats = new();
+    private List<VaultCredential> recentCredentials = new();
+    private List<AuditLog> recentLogs = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        stats = await Data.GetDashboardStatsAsync();
+        recentCredentials = (await Data.GetCredentialsAsync()).Take(5).ToList();
+        recentLogs = (await Data.GetAuditLogsAsync(5)).ToList();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JS.InvokeVoidAsync("refreshTailwindAndIcons");
