@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+:root {
+  --ios-bg: #f5f5f7;
+  --ios-card: #ffffff;
+}
+
+@theme inline {
+  --color-canvas: #f5f5f7;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--ios-bg);
+  color: #111827;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.011em;
+}
+
+/* iOS continuous-corner rounding feel */
+.rounded-ios { border-radius: 16px; }
+.rounded-ios-lg { border-radius: 22px; }
+
+/* Soft, layered iOS shadows */
+.shadow-ios {
+  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04), 0 8px 24px -12px rgba(17, 24, 39, 0.1);
+}
+.shadow-ios-md {
+  box-shadow: 0 8px 30px -8px rgba(17, 24, 39, 0.14);
+}
+
+/* Tap feedback */
+.tap {
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+}
+.tap:active { transform: scale(0.96); }
+
+button { transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+button:active { transform: scale(0.97); }
+
+/* Skeleton shimmer */
+@keyframes ios-shimmer {
+  0% { background-position: -560px 0; }
+  100% { background-position: 560px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #e9e9ec 25%, #f2f2f5 50%, #e9e9ec 75%);
+  background-size: 560px 100%;
+  animation: ios-shimmer 1.5s linear infinite;
+  border-radius: 8px;
+  display: block;
+}
+
+/* Entrance animation */
+@keyframes ios-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-ios-in {
+  animation: ios-fade-up 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Frosted glass */
+.ios-glass {
+  background-color: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+/* Thin scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(60, 60, 67, 0.25) transparent;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(60, 60, 67, 0.22);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(60, 60, 67, 0.4);
+  background-clip: content-box;
+}
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Form inputs */
+.vault-input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+  padding: 0.625rem 0.875rem;
+  font-size: 14px;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+.vault-input::placeholder { color: #9ca3af; }
+.vault-input:focus {
+  border-color: #111827;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+}

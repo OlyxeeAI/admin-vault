@@ -1,4 +1,4 @@
-modules = ["web", "dotnet-8.0"]
+modules = ["web", "dotnet-8.0", "nodejs-22"]
 [agent]
 expertMode = true
 stack = "BEST_EFFORT_FALLBACK"
@@ -27,7 +27,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd 'Admin Vault' && ASPNETCORE_URLS='http://0.0.0.0:5000' ASPNETCORE_ENVIRONMENT=Development dotnet run --no-launch-profile"
+args = "npm run dev"
 waitForPort = 5000
 
 [[ports]]
