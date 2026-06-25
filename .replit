@@ -35,6 +35,6 @@ localPort = 5000
 externalPort = 80
 
 [deployment]
-deploymentTarget = "vm"
-run = ["dotnet", "publish/Admin_Vault.dll", "--urls", "http://0.0.0.0:5000"]
-build = ["dotnet", "publish", "Admin Vault/Admin Vault.csproj", "-c", "Release", "-o", "publish"]
+deploymentTarget = "autoscale"
+run = ["npm", "run", "start"]
+build = ["npm", "run", "build"]

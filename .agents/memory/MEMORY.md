@@ -1,1 +1,1 @@
-- [Blazor on Replit setup](blazor-replit-setup.md) — dotnet run port binding, proxy/HTTPS, and Supabase pooler connection gotchas for this repo.
+- [Supabase pooler + postgres.js](supabase-pooler.md) — transaction pooler (6543) needs prepare:false + ssl require; "auth failed for user postgres" usually means wrong password, not username.
