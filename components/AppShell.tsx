@@ -12,8 +12,11 @@ import {
   Menu,
   X,
   Vault,
+  LogOut,
 } from "lucide-react";
-import { CURRENT_USER } from "@/lib/current-user";
+import { logout } from "@/lib/auth-actions";
+
+type ShellUser = { email: string; role: string };
 
 const NAV = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -28,13 +31,23 @@ function isActive(pathname: string, href: string): boolean {
   return pathname === href || pathname.startsWith(href + "/");
 }
 
-export default function AppShell({ children }: { children: React.ReactNode }) {
+export default function AppShell({
+  children,
+  user,
+}: {
+  children: React.ReactNode;
+  user: ShellUser;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  if (pathname === "/login") {
+    return <>{children}</>;
+  }
 
   const current = NAV.find((n) => isActive(pathname, n.href));
 
@@ -76,15 +89,25 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const userCard = (
     <div className="mx-3 mb-4 mt-2 flex items-center gap-3 rounded-2xl bg-gray-50 px-3 py-3">
-      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-900 text-[13px] font-semibold text-white">
-        {CURRENT_USER.email.slice(0, 2).toUpperCase()}
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-900 text-[13px] font-semibold text-white">
+        {user.email.slice(0, 2).toUpperCase()}
       </div>
-      <div className="min-w-0 leading-tight">
+      <div className="min-w-0 flex-1 leading-tight">
         <p className="truncate text-[13px] font-medium text-gray-900">
-          {CURRENT_USER.email}
+          {user.email}
         </p>
-        <p className="truncate text-[12px] text-gray-400">{CURRENT_USER.role}</p>
+        <p className="truncate text-[12px] text-gray-400">{user.role}</p>
       </div>
+      <form action={logout}>
+        <button
+          type="submit"
+          aria-label="Sign out"
+          title="Sign out"
+          className="tap flex h-8 w-8 items-center justify-center rounded-full text-gray-400 hover:bg-gray-200 hover:text-gray-700"
+        >
+          <LogOut size={16} />
+        </button>
+      </form>
     </div>
   );
 

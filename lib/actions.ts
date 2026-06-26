@@ -4,7 +4,7 @@ import { createHash } from "crypto";
 import { revalidatePath } from "next/cache";
 import type { TransactionSql } from "postgres";
 import { getSql, ensureSchema } from "@/lib/db";
-import { CURRENT_USER } from "@/lib/current-user";
+import { getCurrentUser, type CurrentUser } from "@/lib/session";
 
 type Sql = ReturnType<typeof getSql>;
 type Tx = TransactionSql<Record<string, never>>;
@@ -16,12 +16,13 @@ async function db(): Promise<Sql> {
 
 async function writeAudit(
   tx: Tx,
+  actor: CurrentUser,
   action: string,
   status: string = "SUCCESS"
 ): Promise<void> {
   await tx`
     insert into audit_logs (action, actor_email, actor_role, ip_address, status)
-    values (${action}, ${CURRENT_USER.email}, ${CURRENT_USER.role}, ${"10.0.0.1"}, ${status})
+    values (${action}, ${actor.email}, ${actor.role}, ${"10.0.0.1"}, ${status})
   `;
 }
 
@@ -32,13 +33,14 @@ export async function createProject(formData: FormData): Promise<void> {
 
   if (!name) return;
 
+  const user = await getCurrentUser();
   const sql = await db();
   await sql.begin(async (tx) => {
     await tx`
       insert into projects (name, category, description)
       values (${name}, ${category}, ${description})
     `;
-    await writeAudit(tx, `Created project "${name}"`);
+    await writeAudit(tx, user, `Created project "${name}"`);
   });
 
   revalidatePath("/projects");
@@ -57,6 +59,7 @@ export async function addCredential(formData: FormData): Promise<void> {
 
   if (!projectId || !serviceName || !secretValue) return;
 
+  const user = await getCurrentUser();
   const sql = await db();
   await sql.begin(async (tx) => {
     await tx`
@@ -65,7 +68,7 @@ export async function addCredential(formData: FormData): Promise<void> {
       values
         (${projectId}, ${serviceName}, ${environment}, ${secretValue}, ${ownerEmail}, ${department}, ${status})
     `;
-    await writeAudit(tx, `Added credential "${serviceName}" (${environment || "n/a"})`);
+    await writeAudit(tx, user, `Added credential "${serviceName}" (${environment || "n/a"})`);
   });
 
   revalidatePath(`/projects/${projectId}`);
@@ -84,15 +87,16 @@ export async function uploadDocument(formData: FormData): Promise<void> {
   const buffer = Buffer.from(await file.arrayBuffer());
   const sha256 = createHash("sha256").update(buffer).digest("hex");
 
+  const user = await getCurrentUser();
   const sql = await db();
   await sql.begin(async (tx) => {
     await tx`
       insert into documents
         (project_id, file_name, file_size_bytes, sha256, uploaded_by, classification)
       values
-        (${projectId}, ${file.name}, ${file.size}, ${sha256}, ${CURRENT_USER.email}, ${classification})
+        (${projectId}, ${file.name}, ${file.size}, ${sha256}, ${user.email}, ${classification})
     `;
-    await writeAudit(tx, `Uploaded document "${file.name}"`);
+    await writeAudit(tx, user, `Uploaded document "${file.name}"`);
   });
 
   revalidatePath(`/projects/${projectId}`);
