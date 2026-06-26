@@ -1,0 +1,63 @@
+
+> workspace@1.0.0 dev
+> next dev -H 0.0.0.0 -p 5000
+
+[1G[0K[1m[38;2;173;127;168m▲ Next.js 16.2.9[39m[22m (Turbopack)
+- Local:         http://localhost:5000
+- Network:       http://0.0.0.0:5000
+[32m[1m✓[22m[39m Ready in 420ms
+
+[31m[1m⨯[22m[39m Error [PostgresError]: password authentication failed for user "postgres"
+    at [3mignore-listed frames[23m {
+  code: [32m'28P01'[39m,
+  severity_local: [32m'FATAL'[39m,
+  digest: [32m'2416523887'[39m
+}
+ GET / [32m200[39m in 1524ms[2m (next.js: 177ms, application-code: 1347ms)[22m
+[36m[browser][39m A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <LoadingBoundaryProvider loading={[...]}>
+                      <SegmentViewNode type="layout" pagePath="layout.tsx">
+                        <SegmentTrieNode>
+                        <link>
+                        <script>
+                        <script>
+                        <script>
+                        <RootLayout>
+                          <html
+                            lang="en"
+-                           data-scribe-recorder-ready="true"
+                          >
+                  ...
+ 
+[31m    at Proxy.<anonymous> (https://a7a47fe4-fa60-4de4-b010-75c4799d4de4-00-1bv7pwboyecv1.kirk.replit.dev/__replco/static/devtools/injected.js:37:27)[39m [2m(https://a7a47fe4-fa60-4de4-b010-75c4799d4de4-00-1bv7pwboyecv1.kirk.replit.dev/__replco/static/devtools/injected.js:37:27)[22m
+[36m[browser][39m [31mUncaught PostgresError: password authentication failed for user "postgres"[39m
+[31m[1m⨯[22m[39m Error [PostgresError]: password authentication failed for user "postgres"
+    at [3mignore-listed frames[23m {
+  code: [32m'28P01'[39m,
+  severity_local: [32m'FATAL'[39m,
+  digest: [32m'2416523887'[39m
+}
+ GET / [32m200[39m in 1110ms[2m (next.js: 4ms, application-code: 1106ms)[22m
+[36m[browser][39m [31mUncaught PostgresError: password authentication failed for user "postgres"[39m

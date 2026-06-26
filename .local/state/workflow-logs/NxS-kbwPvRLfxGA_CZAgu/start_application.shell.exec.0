@@ -1,0 +1,121 @@
+
+> workspace@1.0.0 dev
+> next dev -H 0.0.0.0 -p 5000
+
+[1G[0K[1m[38;2;173;127;168m▲ Next.js 16.2.9[39m[22m (Turbopack)
+- Local:         http://localhost:5000
+- Network:       http://0.0.0.0:5000
+[32m[1m✓[22m[39m Ready in 439ms
+
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "projects" already exists, skipping'[39m,
+  file: [32m'parse_utilcmd.c'[39m,
+  line: [32m'207'[39m,
+  routine: [32m'transformCreateStmt'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "credentials" already exists, skipping'[39m,
+  file: [32m'parse_utilcmd.c'[39m,
+  line: [32m'207'[39m,
+  routine: [32m'transformCreateStmt'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "documents" already exists, skipping'[39m,
+  file: [32m'parse_utilcmd.c'[39m,
+  line: [32m'207'[39m,
+  routine: [32m'transformCreateStmt'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "audit_logs" already exists, skipping'[39m,
+  file: [32m'parse_utilcmd.c'[39m,
+  line: [32m'207'[39m,
+  routine: [32m'transformCreateStmt'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "idx_credentials_project" already exists, skipping'[39m,
+  file: [32m'index.c'[39m,
+  line: [32m'889'[39m,
+  routine: [32m'index_create'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "idx_documents_project" already exists, skipping'[39m,
+  file: [32m'index.c'[39m,
+  line: [32m'889'[39m,
+  routine: [32m'index_create'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "idx_audit_timestamp" already exists, skipping'[39m,
+  file: [32m'index.c'[39m,
+  line: [32m'889'[39m,
+  routine: [32m'index_create'[39m
+}
+ GET / [32m200[39m in 3.4s[2m (next.js: 334ms, application-code: 3.1s)[22m
+[36m[browser][39m A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <LoadingBoundaryProvider loading={[...]}>
+                      <SegmentViewNode type="layout" pagePath="layout.tsx">
+                        <SegmentTrieNode>
+                        <link>
+                        <script>
+                        <script>
+                        <script>
+                        <RootLayout>
+                          <html
+                            lang="en"
+-                           data-scribe-recorder-ready="true"
+                          >
+                  ...
+ 
+[31m    at Proxy.<anonymous> (https://a7a47fe4-fa60-4de4-b010-75c4799d4de4-00-1bv7pwboyecv1.kirk.replit.dev/__replco/static/devtools/injected.js:37:27)[39m [2m(https://a7a47fe4-fa60-4de4-b010-75c4799d4de4-00-1bv7pwboyecv1.kirk.replit.dev/__replco/static/devtools/injected.js:37:27)[22m
+ GET / [32m200[39m in 371ms[2m (next.js: 4ms, application-code: 366ms)[22m
+ GET /projects [32m200[39m in 4.1s[2m (next.js: 2.6s, application-code: 1468ms)[22m
+ GET /audit-logs [32m200[39m in 894ms[2m (next.js: 447ms, application-code: 447ms)[22m
+[32m[1m✓[22m[39m Compiled in 153ms
+[32m[1m✓[22m[39m Compiled in 143ms
+ GET / [32m200[39m in 1616ms[2m (next.js: 50ms, application-code: 1566ms)[22m
+ GET / [32m200[39m in 1382ms[2m (next.js: 2ms, application-code: 1380ms)[22m
+ GET / [32m200[39m in 420ms[2m (next.js: 29ms, application-code: 391ms)[22m
+ GET / [32m200[39m in 1636ms[2m (next.js: 106ms, application-code: 1530ms)[22m
+ GET / [32m200[39m in 1326ms[2m (next.js: 3ms, application-code: 1322ms)[22m

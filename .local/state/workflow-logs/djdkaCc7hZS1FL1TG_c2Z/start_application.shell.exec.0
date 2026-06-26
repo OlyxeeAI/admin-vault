@@ -1,0 +1,12 @@
+
+> workspace@1.0.0 dev
+> next dev -H 0.0.0.0 -p 5000
+
+[1G[0K[1m[38;2;173;127;168m▲ Next.js 16.2.9[39m[22m (Turbopack)
+- Local:         http://localhost:5000
+- Network:       http://0.0.0.0:5000
+- Environments: .env.local
+[32m[1m✓[22m[39m Ready in 392ms
+
+ GET /login [32m200[39m in 256ms[2m (next.js: 35ms, proxy.ts: 76ms, application-code: 145ms)[22m
+ GET /login [32m200[39m in 921ms[2m (next.js: 369ms, proxy.ts: 7ms, application-code: 546ms)[22m

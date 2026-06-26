@@ -1,0 +1,704 @@
+
+> workspace@1.0.0 dev
+> next dev -H 0.0.0.0 -p 5000
+
+[1G[0K[1m[38;2;173;127;168m▲ Next.js 16.2.9[39m[22m (Turbopack)
+- Local:         http://localhost:5000
+- Network:       http://0.0.0.0:5000
+[32m[1m✓[22m[39m Ready in 488ms
+
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "projects" already exists, skipping'[39m,
+  file: [32m'parse_utilcmd.c'[39m,
+  line: [32m'207'[39m,
+  routine: [32m'transformCreateStmt'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "credentials" already exists, skipping'[39m,
+  file: [32m'parse_utilcmd.c'[39m,
+  line: [32m'207'[39m,
+  routine: [32m'transformCreateStmt'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "documents" already exists, skipping'[39m,
+  file: [32m'parse_utilcmd.c'[39m,
+  line: [32m'207'[39m,
+  routine: [32m'transformCreateStmt'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "audit_logs" already exists, skipping'[39m,
+  file: [32m'parse_utilcmd.c'[39m,
+  line: [32m'207'[39m,
+  routine: [32m'transformCreateStmt'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "idx_credentials_project" already exists, skipping'[39m,
+  file: [32m'index.c'[39m,
+  line: [32m'889'[39m,
+  routine: [32m'index_create'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "idx_documents_project" already exists, skipping'[39m,
+  file: [32m'index.c'[39m,
+  line: [32m'889'[39m,
+  routine: [32m'index_create'[39m
+}
+{
+  severity_local: [32m'NOTICE'[39m,
+  severity: [32m'NOTICE'[39m,
+  code: [32m'42P07'[39m,
+  message: [32m'relation "idx_audit_timestamp" already exists, skipping'[39m,
+  file: [32m'index.c'[39m,
+  line: [32m'889'[39m,
+  routine: [32m'index_create'[39m
+}
+ GET / [32m200[39m in 3.2s[2m (next.js: 189ms, application-code: 3.0s)[22m
+ GET / [32m200[39m in 345ms[2m (next.js: 4ms, application-code: 341ms)[22m
+ GET /credentials [32m200[39m in 1030ms[2m (next.js: 737ms, application-code: 294ms)[22m
+[36m[browser][39m A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <LoadingBoundaryProvider loading={[...]}>
+                      <SegmentViewNode type="layout" pagePath="layout.tsx">
+                        <SegmentTrieNode>
+                        <link>
+                        <script>
+                        <script>
+                        <script>
+                        <RootLayout>
+                          <html
+                            lang="en"
+-                           data-scribe-recorder-ready="true"
+                          >
+                  ...
+ 
+[31m    at Proxy.<anonymous> (https://a7a47fe4-fa60-4de4-b010-75c4799d4de4-00-1bv7pwboyecv1.kirk.replit.dev/__replco/static/devtools/injected.js:37:27)[39m [2m(https://a7a47fe4-fa60-4de4-b010-75c4799d4de4-00-1bv7pwboyecv1.kirk.replit.dev/__replco/static/devtools/injected.js:37:27)[22m
+ GET /projects [32m200[39m in 1455ms[2m (next.js: 68ms, application-code: 1387ms)[22m
+ GET /projects [32m200[39m in 1326ms[2m (next.js: 3ms, application-code: 1323ms)[22m
+ GET /credentials [32m200[39m in 214ms[2m (next.js: 46ms, application-code: 168ms)[22m
+[36m[browser][39m [33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior[39m [2m(https://a7a47fe4-fa60-4de4-b010-75c4799d4de4-00-1bv7pwboyecv1.kirk.replit.dev/__replco/static/devtools/injected.js:37:27)[22m
+ GET /compliance [32m200[39m in 757ms[2m (next.js: 583ms, application-code: 173ms)[22m
+ GET / [32m200[39m in 1447ms[2m (next.js: 3ms, application-code: 1443ms)[22m
+ GET / [32m200[39m in 305ms[2m (next.js: 4ms, application-code: 301ms)[22m
+ GET / [32m200[39m in 303ms[2m (next.js: 3ms, application-code: 301ms)[22m
+ GET /projects [32m200[39m in 174ms[2m (next.js: 3ms, application-code: 171ms)[22m
+ GET /credentials [32m200[39m in 168ms[2m (next.js: 3ms, application-code: 166ms)[22m
+ GET /compliance [32m200[39m in 164ms[2m (next.js: 3ms, application-code: 161ms)[22m
+ GET /credentials [32m200[39m in 163ms[2m (next.js: 3ms, application-code: 160ms)[22m
+ GET /projects [32m200[39m in 170ms[2m (next.js: 3ms, application-code: 167ms)[22m
+ GET /audit-logs [32m200[39m in 320ms[2m (next.js: 21ms, application-code: 299ms)[22m
+ GET / [32m200[39m in 1439ms[2m (next.js: 3ms, application-code: 1436ms)[22m
+ GET / [32m200[39m in 9ms[2m (next.js: 2ms, application-code: 7ms)[22m
+ GET / [32m200[39m in 303ms[2m (next.js: 2ms, application-code: 300ms)[22m
+ GET /projects [32m200[39m in 1382ms[2m (next.js: 8ms, application-code: 1374ms)[22m
+ GET /projects [32m200[39m in 1302ms[2m (next.js: 2ms, application-code: 1300ms)[22m
+ GET /projects [32m200[39m in 166ms[2m (next.js: 4ms, application-code: 163ms)[22m
+ GET /projects [32m200[39m in 1332ms[2m (next.js: 25ms, application-code: 1307ms)[22m
+ GET / [32m200[39m in 1574ms[2m (next.js: 12ms, application-code: 1562ms)[22m
+[36m[browser][39m A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <LoadingBoundaryProvider loading={[...]}>
+                      <SegmentViewNode type="layout" pagePath="layout.tsx">
+                        <SegmentTrieNode>
+                        <link>
+                        <script>
+                        <script>
+                        <script>
+                        <RootLayout>
+                          <html
+                            lang="en"
+-                           data-scribe-recorder-ready="true"
+                          >
+                  ...
+ 
+[31m    at Proxy.<anonymous> (https://a7a47fe4-fa60-4de4-b010-75c4799d4de4-00-1bv7pwboyecv1.kirk.replit.dev/__replco/static/devtools/injected.js:37:27)[39m [2m(https://a7a47fe4-fa60-4de4-b010-75c4799d4de4-00-1bv7pwboyecv1.kirk.replit.dev/__replco/static/devtools/injected.js:37:27)[22m
+[37m[1m [22m[39m Reload env: .env.local
+ GET / [32m200[39m in 1931ms[2m (next.js: 388ms, application-code: 1544ms)[22m
+ GET /projects [32m200[39m in 1609ms[2m (next.js: 281ms, application-code: 1328ms)[22m
+ GET /credentials [32m200[39m in 293ms[2m (next.js: 118ms, application-code: 175ms)[22m
+ GET /projects [32m200[39m in 1436ms[2m (next.js: 3ms, application-code: 1433ms)[22m
+[36m[browser][39m [33mDetected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior[39m [2m(https://a7a47fe4-fa60-4de4-b010-75c4799d4de4-00-1bv7pwboyecv1.kirk.replit.dev/__replco/static/devtools/injected.js:37:27)[22m
+ GET /compliance [32m200[39m in 1385ms[2m (next.js: 27ms, application-code: 1358ms)[22m
+ GET /audit-logs [32m200[39m in 341ms[2m (next.js: 27ms, application-code: 314ms)[22m
+ GET / [32m200[39m in 1439ms[2m (next.js: 5ms, application-code: 1434ms)[22m
+[33m[1m⚠[22m[39m The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[32m[1m✓[22m[39m Compiled in 632ms
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./components/AppShell.tsx:16:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m14 |[0m   [33mVault[0m,
+  [90m15 |[0m } [36mfrom[0m [32m"lucide-react"[0m;
+[31m[1m>[0m [90m16 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m17 |[0m
+  [90m18 |[0m [36mconst[0m [33mNAV[0m = [
+  [90m19 |[0m   { href: [32m"/"[0m, label: [32m"Dashboard"[0m, icon: [33mLayoutDashboard[0m },
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+Import trace:
+  Server Component:
+    ./components/AppShell.tsx
+    ./app/layout.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./lib/actions.ts:7:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m 5 |[0m [36mimport[0m [36mtype[0m { [33mTransactionSql[0m } [36mfrom[0m [32m"postgres"[0m;
+  [90m 6 |[0m [36mimport[0m { getSql, ensureSchema } [36mfrom[0m [32m"@/lib/db"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mtype[0m [33mSql[0m = [33mReturnType[0m<[36mtypeof[0m getSql>;
+  [90m10 |[0m [36mtype[0m [33mTx[0m = [33mTransactionSql[0m<[33mRecord[0m<string, never>>;
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./lib/actions.ts:7:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m 5 |[0m [36mimport[0m [36mtype[0m { [33mTransactionSql[0m } [36mfrom[0m [32m"postgres"[0m;
+  [90m 6 |[0m [36mimport[0m { getSql, ensureSchema } [36mfrom[0m [32m"@/lib/db"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mtype[0m [33mSql[0m = [33mReturnType[0m<[36mtypeof[0m getSql>;
+  [90m10 |[0m [36mtype[0m [33mTx[0m = [33mTransactionSql[0m<[33mRecord[0m<string, never>>;
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./lib/actions.ts:7:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m 5 |[0m [36mimport[0m [36mtype[0m { [33mTransactionSql[0m } [36mfrom[0m [32m"postgres"[0m;
+  [90m 6 |[0m [36mimport[0m { getSql, ensureSchema } [36mfrom[0m [32m"@/lib/db"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mtype[0m [33mSql[0m = [33mReturnType[0m<[36mtypeof[0m getSql>;
+  [90m10 |[0m [36mtype[0m [33mTx[0m = [33mTransactionSql[0m<[33mRecord[0m<string, never>>;
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./lib/actions.ts:7:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m 5 |[0m [36mimport[0m [36mtype[0m { [33mTransactionSql[0m } [36mfrom[0m [32m"postgres"[0m;
+  [90m 6 |[0m [36mimport[0m { getSql, ensureSchema } [36mfrom[0m [32m"@/lib/db"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mtype[0m [33mSql[0m = [33mReturnType[0m<[36mtypeof[0m getSql>;
+  [90m10 |[0m [36mtype[0m [33mTx[0m = [33mTransactionSql[0m<[33mRecord[0m<string, never>>;
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[32m[1m✓[22m[39m Compiled in 100ms
+[31m[1m⨯[22m[39m ./lib/actions.ts:7:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m 5 |[0m [36mimport[0m [36mtype[0m { [33mTransactionSql[0m } [36mfrom[0m [32m"postgres"[0m;
+  [90m 6 |[0m [36mimport[0m { getSql, ensureSchema } [36mfrom[0m [32m"@/lib/db"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mtype[0m [33mSql[0m = [33mReturnType[0m<[36mtypeof[0m getSql>;
+  [90m10 |[0m [36mtype[0m [33mTx[0m = [33mTransactionSql[0m<[33mRecord[0m<string, never>>;
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[31m[1m⨯[22m[39m ./lib/actions.ts:7:1
+[1m[31mModule not found[39m[22m: Can't resolve [32m'@/lib/current-user'[39m
+  [90m 5 |[0m [36mimport[0m [36mtype[0m { [33mTransactionSql[0m } [36mfrom[0m [32m"postgres"[0m;
+  [90m 6 |[0m [36mimport[0m { getSql, ensureSchema } [36mfrom[0m [32m"@/lib/db"[0m;
+[31m[1m>[0m [90m 7 |[0m [36mimport[0m { [33mCURRENT_USER[0m } [36mfrom[0m [32m"@/lib/current-user"[0m;
+  [90m   |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m 8 |[0m
+  [90m 9 |[0m [36mtype[0m [33mSql[0m = [33mReturnType[0m<[36mtypeof[0m getSql>;
+  [90m10 |[0m [36mtype[0m [33mTx[0m = [33mTransactionSql[0m<[33mRecord[0m<string, never>>;
+
+Import map: aliased to relative './lib/current-user' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[32m[1m✓[22m[39m Compiled in 2.2s
+[32m[1m✓[22m[39m Compiled in 266ms
+[32m[1m✓[22m[39m Compiled in 1052ms
