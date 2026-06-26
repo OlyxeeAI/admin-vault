@@ -31,3 +31,4 @@ yarn-error.log*
 [Oo]bj/
 /publish/
 .vercel
+.env*
