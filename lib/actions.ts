@@ -4,7 +4,7 @@ import { createHash } from "crypto";
 import { revalidatePath } from "next/cache";
 import type { TransactionSql } from "postgres";
 import { getSql, ensureSchema } from "@/lib/db";
-import { getCurrentUser, type CurrentUser } from "@/lib/session";
+import { requireUser, type CurrentUser } from "@/lib/session";
 
 type Sql = ReturnType<typeof getSql>;
 type Tx = TransactionSql<Record<string, never>>;
@@ -33,7 +33,7 @@ export async function createProject(formData: FormData): Promise<void> {
 
   if (!name) return;
 
-  const user = await getCurrentUser();
+  const user = await requireUser();
   const sql = await db();
   await sql.begin(async (tx) => {
     await tx`
@@ -59,7 +59,7 @@ export async function addCredential(formData: FormData): Promise<void> {
 
   if (!projectId || !serviceName || !secretValue) return;
 
-  const user = await getCurrentUser();
+  const user = await requireUser();
   const sql = await db();
   await sql.begin(async (tx) => {
     await tx`
@@ -87,7 +87,7 @@ export async function uploadDocument(formData: FormData): Promise<void> {
   const buffer = Buffer.from(await file.arrayBuffer());
   const sha256 = createHash("sha256").update(buffer).digest("hex");
 
-  const user = await getCurrentUser();
+  const user = await requireUser();
   const sql = await db();
   await sql.begin(async (tx) => {
     await tx`

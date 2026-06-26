@@ -1,1 +1,3 @@
 - [Supabase pooler + postgres.js](supabase-pooler.md) — transaction pooler (6543) needs prepare:false + ssl require; "auth failed for user postgres" usually means wrong password, not username.
+- [Centralized dark-mode theming](theming-dark-mode.md) — dark mode = global `.dark` overrides in globals.css, NOT per-element `dark:` variants; edit globals.css to restyle.
+- [Next 16 proxy](nextjs-16-proxy.md) — middleware renamed to `proxy.ts`/`export function proxy`; edge runtime, import only edge-safe code (no next/headers).

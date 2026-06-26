@@ -2,7 +2,6 @@ import { cookies } from "next/headers";
 import {
   SESSION_COOKIE,
   verifySessionToken,
-  getAdminEmail,
   getAdminRole,
 } from "@/lib/auth";
 
@@ -13,10 +12,16 @@ export async function getSession(): Promise<{ email: string } | null> {
   return verifySessionToken(token);
 }
 
-export async function getCurrentUser(): Promise<CurrentUser> {
+export async function getCurrentUser(): Promise<CurrentUser | null> {
   const session = await getSession();
-  return {
-    email: session?.email ?? getAdminEmail(),
-    role: getAdminRole(),
-  };
+  if (!session) return null;
+  return { email: session.email, role: getAdminRole() };
+}
+
+export async function requireUser(): Promise<CurrentUser> {
+  const user = await getCurrentUser();
+  if (!user) {
+    throw new Error("Unauthorized: no valid admin session.");
+  }
+  return user;
 }

@@ -12,6 +12,7 @@ import {
   Menu,
   X,
   LogOut,
+  Settings,
 } from "lucide-react";
 import { logout } from "@/lib/auth-actions";
 
@@ -23,6 +24,7 @@ const NAV = [
   { href: "/credentials", label: "Credentials", icon: KeyRound },
   { href: "/compliance", label: "Compliance", icon: ShieldCheck },
   { href: "/audit-logs", label: "Audit Trail", icon: ScrollText },
+  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 function isActive(pathname: string, href: string): boolean {
@@ -35,7 +37,7 @@ export default function AppShell({
   user,
 }: {
   children: React.ReactNode;
-  user: ShellUser;
+  user: ShellUser | null;
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -51,35 +53,47 @@ export default function AppShell({
   const current = NAV.find((n) => isActive(pathname, n.href));
 
   const navList = (
-    <nav className="flex flex-col gap-1 px-3">
-      {NAV.map(({ href, label, icon: Icon }) => {
-        const active = isActive(pathname, href);
-        return (
-          <Link
-            key={href}
-            href={href}
-            className={`tap flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium ${
-              active
-                ? "bg-gray-900 text-white shadow-ios"
-                : "text-gray-600 hover:bg-gray-100"
-            }`}
-          >
-            <Icon size={19} strokeWidth={2} />
-            {label}
-          </Link>
-        );
-      })}
+    <nav className="px-3">
+      <p className="px-3 pb-1.5 pt-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-gray-400">
+        Menu
+      </p>
+      <div className="flex flex-col gap-0.5">
+        {NAV.map(({ href, label, icon: Icon }) => {
+          const active = isActive(pathname, href);
+          return (
+            <Link
+              key={href}
+              href={href}
+              aria-current={active ? "page" : undefined}
+              className={`tap flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] font-medium ${
+                active
+                  ? "bg-gray-100 text-gray-900"
+                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+              }`}
+            >
+              <Icon
+                size={19}
+                strokeWidth={2}
+                className={active ? "text-gray-900" : "text-gray-400"}
+              />
+              {label}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 
   const brand = (
     <div className="flex items-center gap-3 px-5 py-5">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/logo.png"
-        alt="Olyxee"
-        className="h-10 w-10 rounded-xl object-cover shadow-ios"
-      />
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-gray-500 to-gray-700 shadow-ios">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/logo-mark.png"
+          alt="Olyxee"
+          className="h-7 w-7 object-contain"
+        />
+      </div>
       <div className="leading-tight">
         <p className="text-[15px] font-semibold tracking-tight text-gray-900">
           Olyxee Vault
@@ -91,14 +105,14 @@ export default function AppShell({
 
   const userCard = (
     <div className="mx-3 mb-4 mt-2 flex items-center gap-3 rounded-2xl bg-gray-50 px-3 py-3">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-900 text-[13px] font-semibold text-white">
-        {user.email.slice(0, 2).toUpperCase()}
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-gray-500 to-gray-700 text-[13px] font-semibold text-white">
+        {(user?.email ?? "?").slice(0, 2).toUpperCase()}
       </div>
       <div className="min-w-0 flex-1 leading-tight">
         <p className="truncate text-[13px] font-medium text-gray-900">
-          {user.email}
+          {user?.email ?? "Unknown"}
         </p>
-        <p className="truncate text-[12px] text-gray-400">{user.role}</p>
+        <p className="truncate text-[12px] text-gray-400">{user?.role ?? ""}</p>
       </div>
       <form action={logout}>
         <button

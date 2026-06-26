@@ -65,6 +65,11 @@ export async function verifyCredentials(
 }
 
 export async function createSessionToken(email: string): Promise<string> {
+  if (!getSecret()) {
+    throw new Error(
+      "Session signing secret is not configured. Set SESSION_SECRET or ADMIN_PASSWORD."
+    );
+  }
   const payload = { sub: email, exp: Date.now() + SESSION_MAX_AGE * 1000 };
   const payloadB64 = b64urlEncode(
     new TextEncoder().encode(JSON.stringify(payload))
@@ -77,6 +82,9 @@ export async function verifySessionToken(
   token: string | undefined | null
 ): Promise<{ email: string } | null> {
   if (!token) return null;
+  // Never accept a token when no signing secret is configured: an empty key is
+  // publicly known and would make forged cookies verifiable.
+  if (!getSecret()) return null;
   const [payloadB64, sig] = token.split(".");
   if (!payloadB64 || !sig) return null;
   const expected = await sign(payloadB64);
