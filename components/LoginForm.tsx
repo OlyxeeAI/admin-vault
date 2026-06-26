@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { Vault, Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { login, type LoginState } from "@/lib/auth-actions";
 
 const initial: LoginState = { error: null };
@@ -15,9 +15,12 @@ export default function LoginForm() {
       className="w-full max-w-sm rounded-3xl border border-gray-200/70 bg-white/80 p-7 shadow-ios-md backdrop-blur-xl"
     >
       <div className="mb-6 flex flex-col items-center text-center">
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-900 text-white shadow-ios">
-          <Vault size={26} strokeWidth={2.2} />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/logo.png"
+          alt="Olyxee"
+          className="mb-4 h-14 w-14 rounded-2xl object-cover shadow-ios"
+        />
         <h1 className="text-[22px] font-semibold tracking-tight text-gray-900">
           Olyxee Vault
         </h1>

@@ -11,7 +11,6 @@ import {
   ScrollText,
   Menu,
   X,
-  Vault,
   LogOut,
 } from "lucide-react";
 import { logout } from "@/lib/auth-actions";
@@ -75,9 +74,12 @@ export default function AppShell({
 
   const brand = (
     <div className="flex items-center gap-3 px-5 py-5">
-      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-900 text-white shadow-ios">
-        <Vault size={20} strokeWidth={2.2} />
-      </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo.png"
+        alt="Olyxee"
+        className="h-10 w-10 rounded-xl object-cover shadow-ios"
+      />
       <div className="leading-tight">
         <p className="text-[15px] font-semibold tracking-tight text-gray-900">
           Olyxee Vault
