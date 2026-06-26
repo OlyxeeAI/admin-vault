@@ -16,6 +16,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "22.x"
+  },
   "bugs": {
     "url": "https://github.com/OlyxeeAI/admin-vault/issues"
   },
